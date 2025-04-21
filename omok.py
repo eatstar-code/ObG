@@ -16,7 +16,7 @@ STAR_POINTS = [(3,3), (3,11), (7,7), (11,3), (11,11)]
 st.sidebar.title("게임 설정")
 player_black   = st.sidebar.text_input("흑 플레이어 이름", "Black")
 player_white   = st.sidebar.text_input("백 플레이어 이름", "White")
-_               = st.sidebar.number_input("제한 시간 (분)", 1, 60, 20)
+_              = st.sidebar.number_input("제한 시간 (분)", 1, 60, 20)
 game_name      = st.sidebar.text_input("게임 이름", "OMOK by GPT")
 if st.sidebar.button("게임 시작"):
     st.session_state.started = True
@@ -29,7 +29,7 @@ if 'started' not in st.session_state:
 st.title(f"{game_name} (Web Version)")
 
 def render_board(board: np.ndarray) -> np.ndarray:
-    """판 + 화점 + 돌을 그린 600×600 RGB 이미지를 numpy array 로 반환"""
+    # PIL로 그리고 numpy array로 반환
     img  = Image.new("RGB", (CANVAS_SIZE, CANVAS_SIZE), "#F0D9B5")
     draw = ImageDraw.Draw(img)
     # 격자
@@ -45,25 +45,28 @@ def render_board(board: np.ndarray) -> np.ndarray:
     r_stone = CELL//2 - 2
     for yy in range(BOARD_SIZE):
         for xx in range(BOARD_SIZE):
+            cx, cy = xx*CELL, yy*CELL
             if board[yy, xx] == 1:   # 흑돌
-                cx, cy = xx*CELL, yy*CELL
-                draw.ellipse([(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)],
-                             fill="black")
+                draw.ellipse(
+                    [(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)],
+                    fill="black"
+                )
             elif board[yy, xx] == 2: # 백돌
-                cx, cy = xx*CELL, yy*CELL
-                draw.ellipse([(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)],
-                             fill="white", outline="black", width=2)
+                draw.ellipse(
+                    [(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)],
+                    fill="white", outline="black", width=2
+                )
     return np.array(img)
 
 if st.session_state.started:
-    # 1) numpy array 판 이미지 생성
+    # 1) 이미지 생성
     board_img_np = render_board(st.session_state.board)
 
-    # 2) numpy array 를 background_image 로 넘겨, 클릭만 받기
+    # 2) NumPy array를 background_image_data로 넘겨서 클릭 캔버스 생성
     canvas_res = st_canvas(
         width=CANVAS_SIZE,
         height=CANVAS_SIZE,
-        background_image=board_img_np,
+        background_image_data=board_img_np,  # ← 여기!
         drawing_mode="point",
         update_streamlit=True,
         stroke_width=0,
@@ -83,10 +86,10 @@ if st.session_state.started:
             else:
                 st.warning("⚠️ 이미 돌이 놓여 있습니다.")
 
-    # 4) 현재 차례 표시
+    # 4) 차례 표시
     turn   = "흑" if st.session_state.current == 1 else "백"
     name   = player_black if turn == "흑" else player_white
     st.markdown(f"**현재 차례: {turn} ({name})**")
 
 else:
-    st.info("사이드바에서 설정 후 ‘게임 시작’ 버튼을 눌러주세요.")
+    st.info("사이드바에서 설정 후 '게임 시작' 버튼을 눌러주세요.")
