@@ -16,42 +16,45 @@ player_white = st.sidebar.text_input("백 플레이어 이름", value="White")
 time_limit_min = st.sidebar.number_input("제한 시간 (분)", min_value=1, max_value=60, value=20)
 game_name = st.sidebar.text_input("게임 이름", value="OMOK by GPT")
 if st.sidebar.button("게임 시작"):
-    # 세션 상태 초기화
     st.session_state.started = True
     st.session_state.start_time = datetime.now()
     st.session_state.board = np.zeros((BOARD_SIZE, BOARD_SIZE), dtype=int)
     st.session_state.current = 1  # 1=흑, 2=백
 
-# --- 세션 상태가 설정되어 있지 않으면 기본값 지정 ---
 if 'started' not in st.session_state:
     st.session_state.started = False
 
-# --- 타이틀 ---
 st.title(f"{game_name} (Web Version)")
 
 # --- 오목판 그리기 함수 ---
 def draw_board(board):
     fig, ax = plt.subplots(figsize=(6,6))
-    # 바둑판 배경색만 베이지 톤으로 설정
-    fig.patch.set_facecolor('white')      # 전체 figure 배경은 흰색
-    ax.set_facecolor('#F0D9B5')           # 판 영역만 베이지
+    # 전체 배경 흰색, 판 영역만 베이지
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('#F0D9B5')
 
-    # 격자
+    # 격자 (zorder=1: 가장 아래)
     for i in range(BOARD_SIZE):
-        ax.plot([0, BOARD_SIZE-1], [i, i], color='black')
-        ax.plot([i, i], [0, BOARD_SIZE-1], color='black')
+        ax.plot([0, BOARD_SIZE-1], [i, i], color='black', zorder=1)
+        ax.plot([i, i], [0, BOARD_SIZE-1], color='black', zorder=1)
 
-    # 화점
+    # 화점 (zorder=1)
     for x, y in STAR_POINTS:
-        ax.scatter(x, y, s=50, color='black')
+        ax.scatter(x, y, s=50, color='black', zorder=1)
 
-    # 돌
+    # 돌 표시
     for y in range(BOARD_SIZE):
         for x in range(BOARD_SIZE):
             if board[y, x] == 1:
-                ax.scatter(x, y, s=200, color='black')
+                # 흑돌 (zorder=3)
+                ax.scatter(x, y, s=200, color='black', zorder=3)
             elif board[y, x] == 2:
-                ax.scatter(x, y, s=200, facecolors='white', edgecolors='black')
+                # 백돌 (zorder=4, 가장 위)
+                ax.scatter(
+                    x, y, s=200,
+                    facecolors='white', edgecolors='black',
+                    linewidths=1.5, zorder=4
+                )
 
     ax.set_xticks([])
     ax.set_yticks([])
@@ -62,20 +65,17 @@ def draw_board(board):
 
 # --- 메인 화면 로직 ---
 if st.session_state.started:
-    # 오목판 렌더링
     draw_board(st.session_state.board)
 
-    # 현재 차례 표시
     turn = "흑" if st.session_state.current == 1 else "백"
-    st.markdown(f"**현재 차례: {turn} ({player_black if turn=='흑' else player_white})**")
+    current_player = player_black if turn == "흑" else player_white
+    st.markdown(f"**현재 차례: {turn} ({current_player})**")
 
-    # 착수 좌표 입력
     col = st.number_input("가로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1, key="col")
     row = st.number_input("세로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1, key="row")
     if st.button("착수"):
         if st.session_state.board[row, col] == 0:
             st.session_state.board[row, col] = st.session_state.current
-            # 차례 교대
             st.session_state.current = 3 - st.session_state.current
         else:
             st.warning("⚠️ 이미 돌이 놓여 있습니다.")
