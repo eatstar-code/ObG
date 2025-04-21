@@ -56,12 +56,12 @@ def render_board_image(board: np.ndarray) -> Image.Image:
     return img
 
 if st.session_state.started:
-    # 1) 바둑판 이미지
+    # 1) 바둑판 이미지 생성
     board_img = render_board_image(st.session_state.board)
 
     # 2) 이 이미지 위에서 클릭만 받을 캔버스
     canvas_res = st_canvas(
-        background_image=board_img,   # ← 여기만 수정!
+        background_image_data=board_img,   # ← PIL Image는 이 파라미터로 넘깁니다
         width=CANVAS_SIZE,
         height=CANVAS_SIZE,
         stroke_width=0,
