@@ -54,3 +54,27 @@ def render_board_image(board):
                     [(xx*CELL_PX - r, yy*CELL_PX - r),
                      (xx*CELL_PX + r, yy*CELL_PX + r)],
                     fill="white", outline="black", width=2
+                )
+    return img
+
+# --- 바둑판 그리기 ---
+board_img = render_board_image(st.session_state.board)
+st.image(board_img, width=CANVAS_PX)
+
+# --- 현재 차례 표시 ---
+turn   = "흑" if st.session_state.current == 1 else "백"
+player = player_black if turn=="흑" else player_white
+st.markdown(f"**현재 차례: {turn} ({player})**")
+
+# --- 좌표 입력 폼 ---
+with st.form("move_form"):
+    col = st.number_input("가로 위치 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
+    row = st.number_input("세로 위치 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
+    if st.form_submit_button("착수"):
+        if st.session_state.board[row, col] == 0:
+            st.session_state.board[row, col] = st.session_state.current
+            st.session_state.current = 3 - st.session_state.current
+        else:
+            st.warning("⚠️ 이미 돌이 놓여 있습니다.")
+
+# --- (추가 개발) 5목 승리 검사, 전적 저장, 타이머 등은 여기 위에 이어서 구현하면 됩니다. ---
