@@ -4,7 +4,7 @@ Obg는 Omok by Gpt의 줄임말로, ChatGPT를 활용하여 개발한 오목 프
 ChatGPT에게 시켜보니 틀을 너무나도 빨리 잡았습니다. 디버깅을 잘 못하기 때문에 사실 개발 기간 중 2시간은
 오류난 것을 묻고 또 묻는 과정이었지만 재미있었습니다. 세부 내역은 아래에 있습니다.
 
-# 업데이트 내역
+### 업데이트 내역
 ## v1.0 – Release date: 2025-04-20
 **작성자**: EATSTAR (https://github.com/eatstar-code)  
 **개발 도구**: ChatGPT o4-mini-high, Visual Studio Code
@@ -36,7 +36,7 @@ eatstar.code@gmail.com
 사실 이곳에 올라온 py버전은 실행시키기 번거로우므로, exe 파일로도 배포를 결정했습니다.
 아래 링크를 통해 다운 받아주세요.
 
-### ObG v1.0
+### ObG v1.0 (Windows)
 https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing
 
 ---
