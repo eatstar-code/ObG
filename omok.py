@@ -36,7 +36,7 @@ if submitted and not st.session_state.game_info:
     }
     st.session_state.start_time = datetime.datetime.now()
     st.session_state.time_limit = int(limit)*60
-    st.experimental_rerun()
+    
 
 # --- 타이머 ---
 if st.session_state.game_info:
@@ -96,7 +96,7 @@ if st.session_state.game_info:
         st.session_state.current_player = 1
         st.session_state.move_history.clear()
         st.session_state.game_over = False
-        st.experimental_rerun()
+        
     if c2.button("전적 저장"):
         st.session_state.game_records.append({
             **st.session_state.game_info,
