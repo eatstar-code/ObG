@@ -1,13 +1,14 @@
 # omok.py
 
 import streamlit as st
+from PIL import Image, ImageDraw
 import numpy as np
-import plotly.graph_objects as go
-from streamlit_plotly_events import plotly_events
 from datetime import datetime
 
 # --- 설정 값 ---
-BOARD_SIZE = 15
+BOARD_SIZE  = 15
+CANVAS_PX   = 600
+CELL_PX     = CANVAS_PX // (BOARD_SIZE - 1)
 STAR_POINTS = [(3,3),(3,11),(7,7),(11,3),(11,11)]
 
 # --- 사이드바: 게임 설정 ---
@@ -16,85 +17,78 @@ player_black   = st.sidebar.text_input("흑 플레이어 이름", "Black")
 player_white   = st.sidebar.text_input("백 플레이어 이름", "White")
 _               = st.sidebar.number_input("제한 시간 (분)", 1, 60, 20)
 game_name      = st.sidebar.text_input("게임 이름", "OMOK by GPT")
+
 if st.sidebar.button("게임 시작"):
     st.session_state.started = True
     st.session_state.board   = np.zeros((BOARD_SIZE, BOARD_SIZE), dtype=int)
-    st.session_state.current = 1  # 1=흑, 2=백
+    st.session_state.current = 1
 
 if 'started' not in st.session_state:
     st.session_state.started = False
 
 st.title(f"{game_name} (Web Version)")
 
-def draw_board_figure(board):
-    fig = go.Figure()
-
-    # 1) 격자 그리기
+def make_board_image(board):
+    img  = Image.new("RGB", (CANVAS_PX, CANVAS_PX), "#F0D9B5")
+    draw = ImageDraw.Draw(img)
+    # 그리드
     for i in range(BOARD_SIZE):
-        fig.add_shape(type="line",
-                      x0=0, y0=i, x1=BOARD_SIZE-1, y1=i,
-                      line=dict(color="black", width=1))
-        fig.add_shape(type="line",
-                      x0=i, y0=0, x1=i, y1=BOARD_SIZE-1,
-                      line=dict(color="black", width=1))
-
-    # 2) 화점
-    sx, sy = zip(*STAR_POINTS)
-    fig.add_trace(go.Scatter(
-        x=[x for x in sx], y=[y for y in sy],
-        mode="markers", marker=dict(size=8, color="black"),
-        hoverinfo="skip",
-    ))
-
-    # 3) 돌
-    blacks = [(x,y) for y in range(BOARD_SIZE) for x in range(BOARD_SIZE) if board[y,x]==1]
-    whites = [(x,y) for y in range(BOARD_SIZE) for x in range(BOARD_SIZE) if board[y,x]==2]
-
-    if blacks:
-        bx, by = zip(*blacks)
-        fig.add_trace(go.Scatter(
-            x=bx, y=by, mode="markers",
-            marker=dict(size=24, color="black"),
-            hoverinfo="skip"
-        ))
-    if whites:
-        wx, wy = zip(*whites)
-        fig.add_trace(go.Scatter(
-            x=wx, y=wy, mode="markers",
-            marker=dict(size=24, color="white", line=dict(color="black", width=2)),
-            hoverinfo="skip"
-        ))
-
-    fig.update_xaxes(showticklabels=False, range=[-0.5, BOARD_SIZE-0.5])
-    fig.update_yaxes(showticklabels=False, range=[BOARD_SIZE-0.5, -0.5])
-    fig.update_layout(width=600, height=600, margin=dict(l=20,r=20,t=20,b=20))
-    return fig
+        c = i * CELL_PX
+        draw.line([(0, c), (CANVAS_PX, c)], fill="black")
+        draw.line([(c, 0), (c, CANVAS_PX)], fill="black")
+    # 화점
+    for x,y in STAR_POINTS:
+        cx, cy = x*CELL_PX, y*CELL_PX
+        draw.ellipse([(cx-5, cy-5),(cx+5, cy+5)], fill="black")
+    # 돌
+    r = CELL_PX//2 - 2
+    for y in range(BOARD_SIZE):
+        for x in range(BOARD_SIZE):
+            if board[y,x] == 1:   # 흑돌
+                cx, cy = x*CELL_PX, y*CELL_PX
+                draw.ellipse([(cx-r,cy-r),(cx+r,cy+r)], fill="black")
+            elif board[y,x] == 2: # 백돌
+                cx, cy = x*CELL_PX, y*CELL_PX
+                draw.ellipse([(cx-r,cy-r),(cx+r,cy+r)],
+                             fill="white", outline="black", width=2)
+    return img
 
 if st.session_state.started:
-    # 1) Plotly 오목판 그리기
-    fig = draw_board_figure(st.session_state.board)
+    # 1) 바둑판 이미지
+    board_img = make_board_image(st.session_state.board)
+    st.image(board_img, use_column_width=False)
 
-    # 2) 클릭 이벤트 받아오기
-    clicked = plotly_events(fig, click_event=True, key="omok_click")
+    # 2) 15×15 버튼 격자
+    st.markdown("<div style='display:grid;grid-template-columns:repeat(15,1fr);"
+                "width:600px;margin-top:-600px;pointer-events:none;'>"
+                + "".join(
+                    f"<button style='width:100%;height:{CELL_PX}px;"
+                    "background:transparent;border:none;pointer-events:auto;' "
+                    f"onclick='alert(\"{x},{y}\")'></button>"
+                    for y in range(15) for x in range(15)
+                )
+                + "</div>", unsafe_allow_html=True)
 
-    # 3) 클릭한 좌표 처리
-    if clicked:
-        x, y = clicked[0]["x"], clicked[0]["y"]
-        xi, yi = int(round(x)), int(round(y))
-        if 0 <= xi < BOARD_SIZE and 0 <= yi < BOARD_SIZE:
-            if st.session_state.board[yi, xi] == 0:
-                st.session_state.board[yi, xi] = st.session_state.current
-                st.session_state.current = 3 - st.session_state.current
-            else:
-                st.warning("⚠️ 이미 돌이 놓여 있습니다.")
+    # 위 예제는 버튼 클릭 시 JS alert로 좌표를 확인할 수 있고,
+    # Streamlit 에서 onclick 이벤트를 직접 받아오진 못하지만,
+    # HTML 버튼 대신 아래와 같이 각 셀마다 st.button을 배치해도 됩니다.
 
-    # 4) 현재 차례 표시
-    turn   = "흑" if st.session_state.current == 1 else "백"
-    player = player_black if turn == "흑" else player_white
-    st.markdown(f"**현재 차례: {turn} ({player})**")
+    # 👉 순수 Streamlit 방식 (안정적입니다):
+    """
+    turn = "흑" if st.session_state.current==1 else "백"
+    st.write(f"**현재 차례: {turn}**")
 
-    # 5) 판 갱신
-    st.plotly_chart(fig, use_container_width=False)
+    for y in range(BOARD_SIZE):
+        cols = st.columns(BOARD_SIZE, gap="small")
+        for x, col in enumerate(cols):
+            label = "●" if st.session_state.board[y,x]==1 else \
+                    "○" if st.session_state.board[y,x]==2 else ""
+            with col:
+                if st.button(label, key=f"{y}-{x}"):
+                    if st.session_state.board[y,x]==0:
+                        st.session_state.board[y,x] = st.session_state.current
+                        st.session_state.current = 3 - st.session_state.current
+    """
 
 else:
     st.info("사이드바에서 설정 후 ‘게임 시작’ 버튼을 눌러주세요.")
