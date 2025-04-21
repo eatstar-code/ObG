@@ -49,9 +49,11 @@ def draw_board(board):
             if board[y, x] == 1:
                 ax.scatter(x, y, s=200, color='black', zorder=3)
             elif board[y, x] == 2:
-                ax.scatter(x, y, s=200,
-                           facecolors='white', edgecolors='black',
-                           linewidths=1.5, zorder=4)
+                ax.scatter(
+                    x, y, s=200,
+                    facecolors='white', edgecolors='black',
+                    linewidths=1.5, zorder=4
+                )
 
     ax.set_xticks([])
     ax.set_yticks([])
@@ -62,25 +64,24 @@ def draw_board(board):
 
 # --- 메인 화면 로직 ---
 if st.session_state.started:
-    # 1) 먼저 입력 폼 생성
+    # 1) 오목판 먼저 렌더링
+    draw_board(st.session_state.board)
+
+    # 2) 현재 차례 표시
+    turn = "흑" if st.session_state.current == 1 else "백"
+    current_player = player_black if turn == "흑" else player_white
+    st.markdown(f"**현재 차례: {turn} ({current_player})**")
+
+    # 3) 그 아래에 좌표 입력 폼
     with st.form("move_form"):
         col = st.number_input("가로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
         row = st.number_input("세로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
-        submit = st.form_submit_button("착수")
-        if submit:
+        if st.form_submit_button("착수"):
             if st.session_state.board[row, col] == 0:
                 st.session_state.board[row, col] = st.session_state.current
                 st.session_state.current = 3 - st.session_state.current
             else:
                 st.warning("⚠️ 이미 돌이 놓여 있습니다.")
-
-    # 2) 입력 처리 후 즉시 바둑판 렌더링
-    draw_board(st.session_state.board)
-
-    # 3) 현재 차례 표시
-    turn = "흑" if st.session_state.current == 1 else "백"
-    current_player = player_black if turn == "흑" else player_white
-    st.markdown(f"**현재 차례: {turn} ({current_player})**")
 
     # TODO:
     # - 5목 승리 검사
