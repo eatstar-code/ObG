@@ -24,6 +24,7 @@ if st.sidebar.button("게임 시작"):
 if 'started' not in st.session_state:
     st.session_state.started = False
 
+# --- 타이틀 ---
 st.title(f"{game_name} (Web Version)")
 
 # --- 오목판 그리기 함수 ---
@@ -33,28 +34,24 @@ def draw_board(board):
     fig.patch.set_facecolor('white')
     ax.set_facecolor('#F0D9B5')
 
-    # 격자 (zorder=1: 가장 아래)
+    # 격자
     for i in range(BOARD_SIZE):
         ax.plot([0, BOARD_SIZE-1], [i, i], color='black', zorder=1)
         ax.plot([i, i], [0, BOARD_SIZE-1], color='black', zorder=1)
 
-    # 화점 (zorder=1)
+    # 화점
     for x, y in STAR_POINTS:
         ax.scatter(x, y, s=50, color='black', zorder=1)
 
-    # 돌 표시
+    # 돌
     for y in range(BOARD_SIZE):
         for x in range(BOARD_SIZE):
             if board[y, x] == 1:
-                # 흑돌 (zorder=3)
                 ax.scatter(x, y, s=200, color='black', zorder=3)
             elif board[y, x] == 2:
-                # 백돌 (zorder=4, 가장 위)
-                ax.scatter(
-                    x, y, s=200,
-                    facecolors='white', edgecolors='black',
-                    linewidths=1.5, zorder=4
-                )
+                ax.scatter(x, y, s=200,
+                           facecolors='white', edgecolors='black',
+                           linewidths=1.5, zorder=4)
 
     ax.set_xticks([])
     ax.set_yticks([])
@@ -65,20 +62,25 @@ def draw_board(board):
 
 # --- 메인 화면 로직 ---
 if st.session_state.started:
+    # 1) 먼저 입력 폼 생성
+    with st.form("move_form"):
+        col = st.number_input("가로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
+        row = st.number_input("세로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
+        submit = st.form_submit_button("착수")
+        if submit:
+            if st.session_state.board[row, col] == 0:
+                st.session_state.board[row, col] = st.session_state.current
+                st.session_state.current = 3 - st.session_state.current
+            else:
+                st.warning("⚠️ 이미 돌이 놓여 있습니다.")
+
+    # 2) 입력 처리 후 즉시 바둑판 렌더링
     draw_board(st.session_state.board)
 
+    # 3) 현재 차례 표시
     turn = "흑" if st.session_state.current == 1 else "백"
     current_player = player_black if turn == "흑" else player_white
     st.markdown(f"**현재 차례: {turn} ({current_player})**")
-
-    col = st.number_input("가로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1, key="col")
-    row = st.number_input("세로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1, key="row")
-    if st.button("착수"):
-        if st.session_state.board[row, col] == 0:
-            st.session_state.board[row, col] = st.session_state.current
-            st.session_state.current = 3 - st.session_state.current
-        else:
-            st.warning("⚠️ 이미 돌이 놓여 있습니다.")
 
     # TODO:
     # - 5목 승리 검사
