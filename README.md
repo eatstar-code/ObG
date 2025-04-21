@@ -1,9 +1,14 @@
-# 업데이트 내역 (CHANGELOG)
+# ObG는 무엇인가요?
+Obg는 Omok by Gpt의 줄임말로, ChatGPT를 활용하여 개발한 오목 프로그램이라는 의미를 담고 있습니다.
+발단은 예전에 기말고사 과제로 C언어를 활용한 텍스트 기반 오목 프로그램을 만든 적이 있었는데, 이것을
+ChatGPT에게 시켜보니 틀을 너무나도 빨리 잡았습니다. 디버깅을 잘 못하기 때문에 사실 개발 기간 중 2시간은
+오류난 것을 묻고 또 묻는 과정이었지만 재미있었습니다. 세부 내역은 아래에 있습니다.
 
+# 업데이트 내역
 ## v1.0 – Release date: 2025-04-20
 **작성자**: EATSTAR (https://github.com/eatstar-code)  
-**개발 도구**: ChatGPT o4-mini-high, Visual Studio  
-**개발 기간**: 약 2시간 반
+**개발 도구**: ChatGPT o4-mini-high, Visual Studio Code
+**개발 기간**: 약 2시간 반 (exe 배포 작업 등 제외)
 
 ### 구현된 주요 기능
 - GUI 기반 오목 시스템 구현  
@@ -21,8 +26,17 @@
 ### 향후 계획 (Roadmap)
 - 3·3, 6목 등 금수 규칙 검출 및 방지 코드 추가  
 - AI 대국 기능 구현  
-- 전적 데이터를 장기적으로 저장할 수 있는 DB 연동
+- 전적 데이터를 장기적으로 저장할 수 있는 DB 연동 << 최우선 과제 (아마 v1.1?)
+
+# 프로그램을 위해 도와주세요!
+프로그램에 대해 흥미가 있으시다면 다음 연락처를 통해 조언해주실 수 있습니다.
+eatstar.code@gmail.com
+
+# exe 버전으로 다운받기
+사실 이곳에 올라온 py버전은 실행시키기 번거로우므로, exe 파일로도 배포를 결정했습니다.
+아래 링크를 통해 다운 받아주세요.
+
+### ObG v1.0
+https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing
 
 ---
-
-*위 업데이트 내역은 `show_updates` 함수에 포함된 내용을 바탕으로 작성되었습니다.*
