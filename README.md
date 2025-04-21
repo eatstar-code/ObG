@@ -64,6 +64,6 @@ Python 설치 없이 바로 실행 가능한 EXE 파일을 제공합니다.
 
 ---
 
-*© 2025 EATSTAR & GPT (ObG v1.0)*
+*© 2025 EATSTAR*
 
 ---
