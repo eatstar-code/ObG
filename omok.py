@@ -13,7 +13,9 @@ STAR_POINTS = [(3,3), (3,11), (7,7), (11,3), (11,11)]
 st.sidebar.title("게임 설정")
 player_black = st.sidebar.text_input("흑 플레이어 이름", value="Black")
 player_white = st.sidebar.text_input("백 플레이어 이름", value="White")
-time_limit_min = st.sidebar.number_input("제한 시간 (분)", min_value=1, max_value=60, value=20)
+time_limit_min = st.sidebar.number_input(
+    "제한 시간 (분)", min_value=1, max_value=60, value=20
+)
 game_name = st.sidebar.text_input("게임 이름", value="OMOK by GPT")
 if st.sidebar.button("게임 시작"):
     st.session_state.started = True
@@ -30,20 +32,19 @@ st.title(f"{game_name} (Web Version)")
 # --- 오목판 그리기 함수 ---
 def draw_board(board):
     fig, ax = plt.subplots(figsize=(6,6))
-    # 전체 배경 흰색, 판 영역만 베이지
-    fig.patch.set_facecolor('white')
-    ax.set_facecolor('#F0D9B5')
+    fig.patch.set_facecolor('white')      # 전체 배경은 흰색
+    ax.set_facecolor('#F0D9B5')           # 판 영역만 베이지
 
-    # 격자
+    # 격자 (zorder=1)
     for i in range(BOARD_SIZE):
         ax.plot([0, BOARD_SIZE-1], [i, i], color='black', zorder=1)
         ax.plot([i, i], [0, BOARD_SIZE-1], color='black', zorder=1)
 
-    # 화점
+    # 화점 (zorder=1)
     for x, y in STAR_POINTS:
         ax.scatter(x, y, s=50, color='black', zorder=1)
 
-    # 돌
+    # 돌 (흑 z=3, 백 z=4)
     for y in range(BOARD_SIZE):
         for x in range(BOARD_SIZE):
             if board[y, x] == 1:
@@ -72,10 +73,19 @@ if st.session_state.started:
     current_player = player_black if turn == "흑" else player_white
     st.markdown(f"**현재 차례: {turn} ({current_player})**")
 
-    # 3) 그 아래에 좌표 입력 폼
+    # 3) 폼을 화면 하단으로 내리기 위해 빈 줄 추가
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+
+    # 4) 그 아래에 좌표 입력 폼
     with st.form("move_form"):
-        col = st.number_input("가로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
-        row = st.number_input("세로 좌표 (0~14)", min_value=0, max_value=BOARD_SIZE-1, step=1)
+        col = st.number_input(
+            "가로 좌표 (0~14)",
+            min_value=0, max_value=BOARD_SIZE-1, step=1
+        )
+        row = st.number_input(
+            "세로 좌표 (0~14)",
+            min_value=0, max_value=BOARD_SIZE-1, step=1
+        )
         if st.form_submit_button("착수"):
             if st.session_state.board[row, col] == 0:
                 st.session_state.board[row, col] = st.session_state.current
@@ -90,4 +100,7 @@ if st.session_state.started:
     # - 업데이트 내역 표시
 
 else:
-    st.info("사이드바에서 플레이어 이름, 시간, 게임 이름을 설정하고 '게임 시작' 버튼을 눌러주세요.")
+    st.info(
+        "사이드바에서 플레이어 이름, 시간, 게임 이름을 설정하고\n"
+        "'게임 시작' 버튼을 눌러주세요."
+    )
