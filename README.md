@@ -61,6 +61,7 @@ ObG는 **Omok by GPT**의 약자로, ChatGPT를 활용해 개발한 GUI 기반 �
 ### ObG v1.0 (Windows)
 Python 설치 없이 바로 실행 가능한 EXE 파일을 제공합니다.  
 [Google Drive에서 다운로드](https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing)
+### windows defender에서 바이러스라고 오인식되는 현상이 발생하여 수정중입니다.
 
 ---
 
