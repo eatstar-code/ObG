@@ -5,18 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
 
-# --- 앱 배경색을 tkinter 버전과 동일한 베이지 톤으로 설정 ---
-st.markdown(
-    """
-    <style>
-      .stApp {
-        background-color: #F0D9B5;
-      }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # --- 설정 값 ---
 BOARD_SIZE = 15
 STAR_POINTS = [(3,3), (3,11), (7,7), (11,3), (11,11)]
@@ -44,9 +32,9 @@ st.title(f"{game_name} (Web Version)")
 # --- 오목판 그리기 함수 ---
 def draw_board(board):
     fig, ax = plt.subplots(figsize=(6,6))
-    # 배경색
-    fig.patch.set_facecolor('#F0D9B5')
-    ax.set_facecolor('#F0D9B5')
+    # 바둑판 배경색만 베이지 톤으로 설정
+    fig.patch.set_facecolor('white')      # 전체 figure 배경은 흰색
+    ax.set_facecolor('#F0D9B5')           # 판 영역만 베이지
 
     # 격자
     for i in range(BOARD_SIZE):
