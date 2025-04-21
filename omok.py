@@ -46,9 +46,9 @@ def render_board_image(board: np.ndarray) -> Image.Image:
     for y in range(BOARD_SIZE):
         for x in range(BOARD_SIZE):
             cx, cy = x*CELL_PIXELS, y*CELL_PIXELS
-            if board[y,x] == 1:  # 흑
+            if board[y,x] == 1:  # 흑돌
                 draw.ellipse([(cx-r_stone, cy-r_stone),(cx+r_stone, cy+r_stone)], fill="black")
-            elif board[y,x] == 2:  # 백
+            elif board[y,x] == 2:  # 백돌
                 draw.ellipse(
                     [(cx-r_stone, cy-r_stone),(cx+r_stone, cy+r_stone)],
                     fill="white", outline="black", width=2
@@ -56,13 +56,14 @@ def render_board_image(board: np.ndarray) -> Image.Image:
     return img
 
 if st.session_state.started:
-    # 1) 바둑판 이미지 생성
+    # 1) 바둑판 이미지
     board_img = render_board_image(st.session_state.board)
 
     # 2) 이 이미지 위에서 클릭만 받을 캔버스
     canvas_res = st_canvas(
-        background_image_data=board_img,
-        width=CANVAS_SIZE, height=CANVAS_SIZE,
+        background_image=board_img,   # ← 여기만 수정!
+        width=CANVAS_SIZE,
+        height=CANVAS_SIZE,
         stroke_width=0,
         drawing_mode="point",
         key="canvas",
