@@ -2,7 +2,6 @@
 
 import streamlit as st
 import numpy as np
-import io, base64
 from PIL import Image, ImageDraw
 from streamlit_drawable_canvas import st_canvas
 from datetime import datetime
@@ -17,8 +16,9 @@ STAR_POINTS = [(3,3), (3,11), (7,7), (11,3), (11,11)]
 st.sidebar.title("게임 설정")
 player_black   = st.sidebar.text_input("흑 플레이어 이름", "Black")
 player_white   = st.sidebar.text_input("백 플레이어 이름", "White")
-_              = st.sidebar.number_input("제한 시간 (분)", 1, 60, 20)  # 아직 사용 안 함
+_              = st.sidebar.number_input("제한 시간 (분)", 1, 60, 20)
 game_name      = st.sidebar.text_input("게임 이름", "OMOK by GPT")
+
 if st.sidebar.button("게임 시작"):
     st.session_state.started = True
     st.session_state.board   = np.zeros((BOARD_SIZE, BOARD_SIZE), dtype=int)
@@ -32,7 +32,7 @@ st.title(f"{game_name} (Web Version)")
 def render_board_image(board: np.ndarray) -> Image.Image:
     img  = Image.new("RGB", (CANVAS_SIZE, CANVAS_SIZE), "#F0D9B5")
     draw = ImageDraw.Draw(img)
-    # 격자
+    # 그리드
     for i in range(BOARD_SIZE):
         c = i * CELL_PIXELS
         draw.line([(0, c), (CANVAS_SIZE, c)], fill="black")
@@ -43,12 +43,15 @@ def render_board_image(board: np.ndarray) -> Image.Image:
         draw.ellipse([(cx-r, cy-r), (cx+r, cy+r)], fill="black")
     # 돌
     r_stone = CELL_PIXELS//2 - 2
-    for y in range(BOARD_SIZE):
-        for x in range(BOARD_SIZE):
-            cx, cy = x*CELL_PIXELS, y*CELL_PIXELS
-            if board[y, x] == 1:   # 흑돌
-                draw.ellipse([(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)], fill="black")
-            elif board[y, x] == 2: # 백돌
+    for yy in range(BOARD_SIZE):
+        for xx in range(BOARD_SIZE):
+            cx, cy = xx*CELL_PIXELS, yy*CELL_PIXELS
+            if board[yy, xx] == 1:   # 흑돌
+                draw.ellipse(
+                    [(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)],
+                    fill="black"
+                )
+            elif board[yy, xx] == 2: # 백돌
                 draw.ellipse(
                     [(cx-r_stone, cy-r_stone), (cx+r_stone, cy+r_stone)],
                     fill="white", outline="black", width=2
@@ -59,22 +62,17 @@ if st.session_state.started:
     # 1) PIL 이미지 생성
     board_img = render_board_image(st.session_state.board)
 
-    # 2) base64로 인코딩 → data URL 생성
-    buf = io.BytesIO()
-    board_img.save(buf, format="PNG")
-    b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
-    data_url = f"data:image/png;base64,{b64}"
-
-    # 3) background_image에 URL로 넘겨 캔버스 생성
+    # 2) PIL 이미지(또는 numpy array) 직접 넘기기
     canvas_res = st_canvas(
-        background_image=data_url,
-        width=CANVAS_SIZE, height=CANVAS_SIZE,
+        background_image=board_img,   # ← PIL.Image 객체를 직접 넣습니다
+        width=CANVAS_SIZE,
+        height=CANVAS_SIZE,
         stroke_width=0,
         drawing_mode="point",
         key="omok_canvas",
     )
 
-    # 4) 클릭 이벤트 처리
+    # 3) 클릭 처리 (이전과 동일)
     if canvas_res.json_data and canvas_res.json_data.get("objects"):
         last = canvas_res.json_data["objects"][-1]
         x_pix, y_pix = last["left"], last["top"]
@@ -87,10 +85,10 @@ if st.session_state.started:
             else:
                 st.warning("⚠️ 이미 돌이 놓여 있습니다.")
 
-    # 5) 현재 차례 표시
+    # 4) 차례 표시
     turn   = "흑" if st.session_state.current == 1 else "백"
-    player = player_black if turn == "흑" else player_white
-    st.markdown(f"**현재 차례: {turn} ({player})**")
+    name   = player_black if turn=="흑" else player_white
+    st.markdown(f"**현재 차례: {turn} ({name})**")
 
 else:
-    st.info("사이드바에서 설정 후 ‘게임 시작’ 버튼을 눌러주세요.")
+    st.info("사이드바에서 설정 후 '게임 시작' 버튼을 눌러주세요.")
