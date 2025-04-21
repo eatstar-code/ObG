@@ -19,3 +19,4 @@ def draw_board():
 
 st.title("OMOK by GPT (Web Version)")
 draw_board()
+
