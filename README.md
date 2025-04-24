@@ -75,7 +75,7 @@
 - 파이썬 파일은 Visual Studio Code에서 직접 실행시키셔야 합니다.
 - EXE 실행파일은 배포용으로는 운영체제에서 바이러스 오탐지로 막으므로 사실상 실행이 불가능합니다.
 - docker 패키지로 실행시킬 수 있습니다. (v1.1부터 도입) 운영체제별 실행 방법은 다음과 같습니다.
-  [Windows] 
+  [Windows](./windows_package.md)
   [Mac OS] (준비중)
   [Linux] (준비중)
 
