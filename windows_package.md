@@ -46,8 +46,8 @@ docker run -it --rm -e DISPLAY=host.docker.internal:0 ghcr.io/eatstar-code/omok-
 또는
 
 Docker Desktop > Images에서 실행
-단, 실행하면 나오는 Optimal Setting의 Environment variables에서 
-Variable과 Value에 각각 DISPLAY, host.docker.internal:0를 넣고 실행해야 함.
+<br>단, 실행하면 나오는 Optimal Setting의 Environment variables에서 
+<br>Variable과 Value에 각각 DISPLAY, host.docker.internal:0를 넣고 실행해야 함.
 
 ### 5️⃣ 게임 시작
 
