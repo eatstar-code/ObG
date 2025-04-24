@@ -1,4 +1,4 @@
-# ObG v1.1 - Windows용 Docker 실행 가이드
+# ObG v1.x - Windows용 Docker 실행 가이드
 
 이 문서는 Windows 환경에서 **Docker를 이용해 ObG (Omok by GPT) v1.x**을 실행하는 방법을 안내합니다.
 
