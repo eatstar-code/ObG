@@ -89,7 +89,7 @@
 
 ### ObG v1.0 (Windows)
 - 파이썬(py) 파일  
-  <br>[다운로드 링크](https://drive.google.com/file/d/1By4ZkZodfTU7roQ_NuHanuuwakvj9gOA/view?usp=sharing)<br>
+  [다운로드 링크](https://drive.google.com/file/d/1By4ZkZodfTU7roQ_NuHanuuwakvj9gOA/view?usp=sharing)<br>
 - 실행(EXE) 파일
   <br>[다운로드 링크](https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing)<br>
 - 패키지 파일
