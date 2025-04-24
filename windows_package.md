@@ -1,6 +1,6 @@
 # ObG v1.1 - Windows용 Docker 실행 가이드
 
-이 문서는 Windows 환경에서 **Docker를 이용해 ObG (Omok by GPT) v1.1**을 실행하는 방법을 안내합니다.
+이 문서는 Windows 환경에서 **Docker를 이용해 ObG (Omok by GPT) v1.x**을 실행하는 방법을 안내합니다.
 
 ---
 
@@ -15,7 +15,12 @@
 
 ## ✅ 실행 순서
 
-### 1️⃣ VcXsrv 실행
+### 1️⃣ Docker Desktop 실행 
+
+1. 설치 후 바탕화면 또는 시작 메뉴에서 `Docker Desktop` 실행
+2. 작업표시줄에 🐳 고래 아이콘이 뜨면 실행 완료!
+
+### 2️⃣ VcXsrv 실행
 
 1. 설치 후 `XLaunch` 실행
 2. 설정:
@@ -26,25 +31,24 @@
 
 ---
 
-### 2️⃣ Docker 이미지 설치
+### 3️⃣ Docker 이미지 설치
 
+cmd에서 다음 명령어를 실행.
 ```bash
 docker pull ghcr.io/eatstar-code/omok-gui:1.1
 ```
 
 ---
 
-### 3️⃣ Docker로 프로그램 실행
+### 4️⃣ Docker로 프로그램 실행
 
 ```bash
 docker run -it --rm -e DISPLAY=host.docker.internal:0 ghcr.io/eatstar-code/omok-gui:1.1
 ```
 
-> ⚠ 위 명마에서 `DISPLAY=host.docker.internal:0` 는 반복 필요한 환경변수입니다. GUI가 정상 작동하기 위해 필요해요.
-
 ---
 
-### 4️⃣ 게임 시작
+### 5️⃣ 게임 시작
 
 - GUI 창이 들어오면 `게임 정보 입력` 창이 표시됩니다.
 - 이름, 시간, 플레이어 정보를 입력하고 게임을 시작하세요!
@@ -63,7 +67,7 @@ docker run -it --rm -e DISPLAY=host.docker.internal:0 ghcr.io/eatstar-code/omok-
 ## 📘 참고
 
 - 이 버전은 `ghcr.io`를 통해 배포되며, 변경 없이 Docker만 있으면 실행 가능합니다.
-- macOS 및 Linux 사용자는 [`mac_linux_package.md`](./mac_linux_package.md)를 참조해주세요.
+- macOS 및 Linux 사용자는 ~를 참조해주세요.
 
 ---
 
