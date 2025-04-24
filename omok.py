@@ -1,11 +1,21 @@
-import os
-import sqlite3
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 import datetime
+import os
+import sys
+import sqlite3
 
-# --- DB initialization ---
-DB_PATH = os.path.join(os.path.dirname(__file__), 'omok.db')
+def resource_path(relative_path):
+    # PyInstaller가 실행파일 위치를 sys._MEIPASS로 바꿔버리는 것을 방지하고
+    # 항상 .exe가 위치한 실제 폴더 기준으로 동작하도록 설정
+    try:
+        base_path = os.path.dirname(sys.executable)
+    except AttributeError:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
+
+DB_PATH = resource_path("omok.db")
+
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 conn.execute("""
     CREATE TABLE IF NOT EXISTS games (
@@ -192,12 +202,15 @@ def on_click(e):
 
 # --- Save current game ---
 def save_current_game():
-    cur=conn.cursor(); cur.execute("INSERT INTO games(name,match_time,black_player,white_player,time_limit_min) VALUES(?,?,?,?,?)",
-                (game_name,match_time,black_player,white_player,time_limit//60))
-    gid=cur.lastrowid
-    for i,(pl,x,y) in enumerate(move_history,start=1): cur.execute("INSERT INTO moves(game_id,move_no,player,x,y) VALUES(?,?,?,?,?)",(gid,i,pl,x,y))
+    cur = conn.cursor()
+    cur.execute("INSERT INTO games(name,match_time,black_player,white_player,time_limit_min) VALUES(?,?,?,?,?)",
+                (game_name, match_time, black_player, white_player, time_limit // 60))
+    gid = cur.lastrowid
+    for i, (pl, x, y) in enumerate(move_history, start=1):
+        cur.execute("INSERT INTO moves(game_id, move_no, player, x, y) VALUES(?,?,?,?,?)", (gid, i, pl, x, y))
     conn.commit()
-    game_records.append({'id':gid,'name':game_name,'match_time':match_time,'black':black_player,'white':white_player,'time_limit_min':time_limit//60,'moves':move_history.copy()})
+    global game_records
+    game_records = load_game_records()
 
 def reset_game():
     global board,current_player,move_history,timer_id
@@ -208,6 +221,8 @@ def reset_game():
     draw_board(); canvas.bind('<Button-1>',on_click); update_timer_labels(); timer_id=root.after(1000,tick)
 
 def show_record_list():
+    global game_records
+    game_records = load_game_records()
     win=tk.Toplevel(root); win.title("전적 목록")
     lb=tk.Listbox(win,width=50,height=10)
     for rec in game_records: lb.insert(tk.END,f"{rec['id']}. {rec['name']} ({rec['time_limit_min']}분) {rec['black']} vs {rec['white']} @ {rec['match_time']}")
