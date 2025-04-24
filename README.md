@@ -72,17 +72,27 @@
 ---
 
 ## 다운로드
-### ObG v1.1 (Windows)
-제공 예정
+- 파이썬 파일은 Visual Studio Code에서 직접 실행시키셔야 합니다.
+- EXE 실행파일은 배포용으로는 운영체제에서 바이러스 오탐지로 막으므로 사실상 실행이 불가능합니다.
+- docker 패키지로 실행시킬 수 있습니다. (v1.1부터 도입) 운영체제별 실행 방법은 다음과 같습니다.
+  [Windows] 
+  [Mac OS] (준비중)
+  [Linux] (준비중)
+
+### ObG v1.1
+- 파이썬(py) 파일
+  [다운로드 링크](https://drive.google.com/drive/folders/1o5I0frlaYAMUnts99rEjrnrp_jpqJDMt?usp=sharing)
+- 실행(EXE) 파일
+
+- 패키지 파일
 
 ### ObG v1.0 (Windows)
-- 설치형 EXE 파일 (Python 미설치 환경 지원)  
-  [다운로드 링크](https://drive.google.com/file/d/13idUxS4BbB_giOrATfSWCNPxb7VGsVCN/view?usp=sharing)
-
-- **Windows Defender** 차단 해제 및 실행 방법:  
-  [가이드 바로가기](https://kissi-pro.tistory.com/entry/%ED%8C%8C%EC%9D%BC%EC%97%90-%EB%B0%94%EC%9D%B4%EB%9F%AC%EC%8A%A4-%EB%98%90%EB%8A%94-%EA%B8%B0%ED%83%80-%EC%82%AC%EC%9A%A9%EC%9E%90-%EB%8F%99%EC%9D%98-%EC%97%86%EC%9D%B4-%EC%84%A4%EC%B9%98%EB%90%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B0%80-%EC%9E%88%EA%B8%B0-%EB%95%8C%EB%AC%B8%EC%97%90-%EC%9E%91%EC%97%85%EC%9D%B4-%EC%99%84%EB%A3%8C%EB%90%98%EC%A7%80-%EC%95%8A%EC%95%98%EC%8A%B5%EB%8B%88%EB%8B%A4)
-
-- 디펜더를 해제해도 EXE파일이 다운로드부터 막히는 경우도 존재합니다. py파일을 다운받으셔서 visual studio code에서 실행시키시길 바랍니다.
+- 파이썬(py) 파일  
+  [다운로드 링크]([https://drive.google.com/file/d/13idUxS4BbB_giOrATfSWCNPxb7VGsVCN/view?usp=sharing](https://drive.google.com/file/d/1By4ZkZodfTU7roQ_NuHanuuwakvj9gOA/view?usp=sharing))
+- 실행(EXE) 파일
+  [다운로드 링크](https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing)
+- 패키지 파일
+  v1.0 버전은 패키지 파일을 지원하지 않습니다.
 
 ---
 
