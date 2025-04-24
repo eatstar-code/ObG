@@ -15,6 +15,11 @@
 
 ## ✅ 실행 순서
 
+일단 본격적으로 시작하기 전에 아래 코드를 통해 업데이트 해줍니다.
+```bash
+wsl.exe --update
+```
+
 ### 1️⃣ Docker Desktop 실행 
 
 1. 설치 후 바탕화면 또는 시작 메뉴에서 `Docker Desktop` 실행
