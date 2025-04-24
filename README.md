@@ -81,18 +81,18 @@
 
 ### ObG v1.1
 - 파이썬(py) 파일
-  [다운로드 링크](https://drive.google.com/drive/folders/1o5I0frlaYAMUnts99rEjrnrp_jpqJDMt?usp=sharing)
+  <br>[다운로드 링크](https://drive.google.com/drive/folders/1o5I0frlaYAMUnts99rEjrnrp_jpqJDMt?usp=sharing)
 - 실행(EXE) 파일
 
 - 패키지 파일
 
 ### ObG v1.0 (Windows)
 - 파이썬(py) 파일  
-  [다운로드 링크]([https://drive.google.com/file/d/13idUxS4BbB_giOrATfSWCNPxb7VGsVCN/view?usp=sharing](https://drive.google.com/file/d/1By4ZkZodfTU7roQ_NuHanuuwakvj9gOA/view?usp=sharing))
+  <br>[다운로드 링크]([https://drive.google.com/file/d/13idUxS4BbB_giOrATfSWCNPxb7VGsVCN/view?usp=sharing](https://drive.google.com/file/d/1By4ZkZodfTU7roQ_NuHanuuwakvj9gOA/view?usp=sharing))
 - 실행(EXE) 파일
-  [다운로드 링크](https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing)
+  <br>[다운로드 링크](https://drive.google.com/file/d/1prH91aCBJrlwCgis_eEZyZ6KNi4BROLk/view?usp=sharing)
 - 패키지 파일
-  v1.0 버전은 패키지 파일을 지원하지 않습니다.
+  <br>v1.0 버전은 패키지 파일을 지원하지 않습니다.
 
 ---
 
