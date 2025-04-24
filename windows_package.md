@@ -29,24 +29,23 @@
    - ✅ **Disable access control** 체크
 3. Finish 클릭 → X 서버 실행됨 ( 작업표시줄에 아이콘 표시 )
 
----
-
 ### 3️⃣ Docker 이미지 설치
 
-cmd에서 다음 명령어를 실행.
+cmd에서 명령어를 입력. (예: 1.1 버전인 경우, 1.x를 1.1로 바꾸세요)
 ```bash
-docker pull ghcr.io/eatstar-code/omok-gui:1.1
+docker pull ghcr.io/eatstar-code/omok-gui:1.x
 ```
-
----
 
 ### 4️⃣ Docker로 프로그램 실행
 
+cmd에서 이어서 명령어를 입력.
 ```bash
-docker run -it --rm -e DISPLAY=host.docker.internal:0 ghcr.io/eatstar-code/omok-gui:1.1
+docker run -it --rm -e DISPLAY=host.docker.internal:0 ghcr.io/eatstar-code/omok-gui:1.x
 ```
 
----
+또는
+
+Docker Desktop > Images에서 실행
 
 ### 5️⃣ 게임 시작
 
@@ -66,7 +65,7 @@ docker run -it --rm -e DISPLAY=host.docker.internal:0 ghcr.io/eatstar-code/omok-
 
 ## 📘 참고
 
-- 이 버전은 `ghcr.io`를 통해 배포되며, 변경 없이 Docker만 있으면 실행 가능합니다.
+- 이미 두 프로그램이 깔려있다면, 두 프로그램을 모두 실행시키고 이미지 설치, 실행하시면 됩니다.
 - macOS 및 Linux 사용자는 ~를 참조해주세요.
 
 ---
