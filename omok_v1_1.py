@@ -6,17 +6,12 @@ import sys
 import sqlite3
 
 def resource_path(relative_path):
-    # PyInstaller가 실행파일 위치를 sys._MEIPASS로 바꿔버리는 것을 방지하고
-    # 항상 .exe가 위치한 실제 폴더 기준으로 동작하도록 설정
-    try:
-        base_path = os.path.dirname(sys.executable)
-    except AttributeError:
-        base_path = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(base_path, relative_path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
 
 DB_PATH = resource_path("omok.db")
 
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+
 conn.execute("""
     CREATE TABLE IF NOT EXISTS games (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -72,6 +67,7 @@ STAR_POINTS = [(3, 3), (3, 11), (7, 7), (11, 3), (11, 11)]
 # --- Tkinter 메인 윈도우 초기화 ---
 root = tk.Tk()
 root.title("OMOK by GPT(ObG) v1.1")
+root.option_add("*Font", ("NanumGothic", 12))
 
 # --- Global State ---
 board = [[0] * BOARD_SIZE for _ in range(BOARD_SIZE)]
