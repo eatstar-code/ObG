@@ -87,7 +87,7 @@
 - 실행(EXE) 파일
   <br>[다운로드 링크](https://drive.google.com/file/d/1xvMMjntL4B2k2OmJngcUAJ-oQN-ji-M0/view?usp=sharing)
 - 패키지 파일
-  <br>[설치 코드]([https://github.com/eatstar-code/ObG/pkgs/container/omok-gui/401512636?tag=1.1](https://github.com/users/eatstar-code/packages/container/obg/401986686?tag=1.1))<br>
+  <br>[설치 코드](https://github.com/users/eatstar-code/packages/container/obg/401986686?tag=1.1)<br>
 
 ### ObG v1.0
 - 파이썬(py) 파일  
