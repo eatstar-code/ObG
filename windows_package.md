@@ -55,8 +55,8 @@ wsl --update
 - ✅ 전적 DB 파일 (`omok.db`) 유무 확인 및 안내
 - ✅ 프로그램 실행
 
-[.bat 파일, .db 파일 다운로드](https://drive.google.com/file/d/1zJCP5A0Z5sBZpOHvbLllF1gu9Wkm0fB6/view?usp=sharing)[br]
-위 파일을 다운로드 받은 후 압축을 풀고, `ObG_auto_excute.bat` 파일을 더블 클릭하세요.
+[.bat 파일, .db 파일 다운로드](https://drive.google.com/file/d/1zJCP5A0Z5sBZpOHvbLllF1gu9Wkm0fB6/view?usp=sharing)
+<br>위 파일을 다운로드 받은 후 압축을 풀고, `ObG_auto_excute.bat` 파일을 더블 클릭하세요.
 
 ---
 
