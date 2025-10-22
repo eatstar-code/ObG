@@ -69,7 +69,7 @@
 
 ## 피드백
 프로그램 개선을 위한 의견이나 제안은 언제든 환영합니다.
-- ✉️ eatstar.code@gmail.com
+- ✉️ eatstar.studio@gmail.com
 
 ---
 
